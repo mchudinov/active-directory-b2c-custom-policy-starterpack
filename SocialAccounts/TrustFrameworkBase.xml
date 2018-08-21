@@ -4,9 +4,9 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
-  TenantId="yourtenant.onmicrosoft.com"
+  TenantId="fmdclient.onmicrosoft.com"
   PolicyId="B2C_1A_TrustFrameworkBase"
-  PublicPolicyUri="http://yourtenant.onmicrosoft.com/B2C_1A_TrustFrameworkBase">
+  PublicPolicyUri="http://fmdclient.onmicrosoft.com/B2C_1A_TrustFrameworkBase">
 
   <BuildingBlocks>
     <ClaimsSchema>
@@ -323,52 +323,7 @@
         A list of all the claim providers that can be used in the technical policies. If a claims provider is not listed 
         in this section, then it cannot be used in a technical policy.
     -->
-  <ClaimsProviders>
-
-        <ClaimsProvider>
-      <!-- The following Domain element allows this profile to be used if the request comes with domain_hint 
-           query string parameter, e.g. domain_hint=facebook.com  -->
-      <Domain>facebook.com</Domain>
-      <DisplayName>Facebook</DisplayName>
-      <TechnicalProfiles>
-        <TechnicalProfile Id="Facebook-OAUTH">
-          <!-- The text in the following DisplayName element is shown to the user on the claims provider 
-               selection screen. -->
-          <DisplayName>Facebook</DisplayName>
-          <Protocol Name="OAuth2" />
-          <Metadata>
-            <Item Key="ProviderName">facebook</Item>
-            <Item Key="authorization_endpoint">https://www.facebook.com/dialog/oauth</Item>
-            <Item Key="AccessTokenEndpoint">https://graph.facebook.com/oauth/access_token</Item>
-            <Item Key="HttpBinding">GET</Item>
-            <Item Key="UsePolicyInRedirectUri">0</Item>
-
-            <!-- The Facebook required HTTP GET method, but the access token response is in JSON format from 3/27/2017 -->
-            <Item Key="AccessTokenResponseFormat">json</Item>
-          </Metadata>
-          <CryptographicKeys>
-            <Key Id="client_secret" StorageReferenceId="B2C_1A_FacebookSecret" />
-          </CryptographicKeys>
-          <InputClaims />
-          <OutputClaims>
-            <OutputClaim ClaimTypeReferenceId="socialIdpUserId" PartnerClaimType="id" />
-            <OutputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="first_name" />
-            <OutputClaim ClaimTypeReferenceId="surname" PartnerClaimType="last_name" />
-            <OutputClaim ClaimTypeReferenceId="displayName" PartnerClaimType="name" />
-            <OutputClaim ClaimTypeReferenceId="email" PartnerClaimType="email" />
-            <OutputClaim ClaimTypeReferenceId="identityProvider" DefaultValue="facebook.com" />
-            <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="socialIdpAuthentication" />
-          </OutputClaims>
-          <OutputClaimsTransformations>
-            <OutputClaimsTransformation ReferenceId="CreateRandomUPNUserName" />
-            <OutputClaimsTransformation ReferenceId="CreateUserPrincipalName" />
-            <OutputClaimsTransformation ReferenceId="CreateAlternativeSecurityId" />
-          </OutputClaimsTransformations>
-          <UseTechnicalProfileForSessionManagement ReferenceId="SM-SocialLogin" />
-        </TechnicalProfile>
-      </TechnicalProfiles>
-    </ClaimsProvider>
-  
+  <ClaimsProviders>  
     <ClaimsProvider>
       <DisplayName>Azure Active Directory</DisplayName>
       <TechnicalProfiles>
@@ -660,93 +615,8 @@
     </ClaimsProvider>
   </ClaimsProviders>
 
-  <UserJourneys>
+  <!-- <UserJourneys> -->
 
-    <UserJourney Id="SignUpOrSignIn">
-      <OrchestrationSteps>
-
-        <OrchestrationStep Order="1" Type="CombinedSignInAndSignUp" ContentDefinitionReferenceId="api.signuporsignin">
-          <ClaimsProviderSelections>
-            <ClaimsProviderSelection TargetClaimsExchangeId="FacebookExchange" />
-          </ClaimsProviderSelections>
-        </OrchestrationStep>
-
-        <OrchestrationStep Order="2" Type="ClaimsExchange">
-          <ClaimsExchanges>
-            <ClaimsExchange Id="FacebookExchange" TechnicalProfileReferenceId="Facebook-OAUTH" />
-          </ClaimsExchanges>
-        </OrchestrationStep>
-
-        <!-- For social IDP authentication, attempt to find the user account in the directory. -->
-        <OrchestrationStep Order="3" Type="ClaimsExchange">
-          <ClaimsExchanges>
-            <ClaimsExchange Id="AADUserReadUsingAlternativeSecurityId" TechnicalProfileReferenceId="AAD-UserReadUsingAlternativeSecurityId-NoError" />
-          </ClaimsExchanges>
-        </OrchestrationStep>
-
-        <!-- Show self-asserted page only if the directory does not have the user account already (i.e. we do not have an objectId).  -->
-        <OrchestrationStep Order="4" Type="ClaimsExchange">
-          <Preconditions>
-            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
-              <Value>objectId</Value>
-              <Action>SkipThisOrchestrationStep</Action>
-            </Precondition>
-          </Preconditions>
-          <ClaimsExchanges>
-            <ClaimsExchange Id="SelfAsserted-Social" TechnicalProfileReferenceId="SelfAsserted-Social" />
-          </ClaimsExchanges>
-        </OrchestrationStep>
-
-        <!-- The previous step (SelfAsserted-Social) could have been skipped if there were no attributes to collect 
-             from the user. So, in that case, create the user in the directory if one does not already exist 
-             (verified using objectId which would be set from the last step if account was created in the directory. -->
-        <OrchestrationStep Order="5" Type="ClaimsExchange">
-          <Preconditions>
-            <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
-              <Value>objectId</Value>
-              <Action>SkipThisOrchestrationStep</Action>
-            </Precondition>
-          </Preconditions>
-          <ClaimsExchanges>
-            <ClaimsExchange Id="AADUserWrite" TechnicalProfileReferenceId="AAD-UserWriteUsingAlternativeSecurityId" />
-          </ClaimsExchanges>
-        </OrchestrationStep>
  
-        <OrchestrationStep Order="6" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
-       
-      </OrchestrationSteps>
-      <ClientDefinition ReferenceId="DefaultWeb" />
-    </UserJourney>
-
-    <UserJourney Id="ProfileEdit">
-      <OrchestrationSteps>
-
-      <OrchestrationStep Order="1" Type="ClaimsProviderSelection" ContentDefinitionReferenceId="api.idpselections">
-          <ClaimsProviderSelections>
-            <ClaimsProviderSelection TargetClaimsExchangeId="FacebookExchange" />
-          </ClaimsProviderSelections>
-        </OrchestrationStep>
-        <OrchestrationStep Order="2" Type="ClaimsExchange">
-          <ClaimsExchanges>
-            <ClaimsExchange Id="FacebookExchange" TechnicalProfileReferenceId="Facebook-OAUTH" />
-          </ClaimsExchanges>
-        </OrchestrationStep>
-        <OrchestrationStep Order="3" Type="ClaimsExchange">
-          <ClaimsExchanges>
-            <ClaimsExchange Id="AADUserRead" TechnicalProfileReferenceId="AAD-UserReadUsingAlternativeSecurityId" />
-          </ClaimsExchanges>
-        </OrchestrationStep>
- 
-        <OrchestrationStep Order="4" Type="ClaimsExchange">
-          <ClaimsExchanges>
-            <ClaimsExchange Id="B2CUserProfileUpdateExchange" TechnicalProfileReferenceId="SelfAsserted-ProfileUpdate" />
-          </ClaimsExchanges>
-        </OrchestrationStep>
-        <OrchestrationStep Order="5" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
-       
-      </OrchestrationSteps>
-      <ClientDefinition ReferenceId="DefaultWeb" />
-    </UserJourney>
- 
-  </UserJourneys>
+  <!-- </UserJourneys> -->
 </TrustFrameworkPolicy>
