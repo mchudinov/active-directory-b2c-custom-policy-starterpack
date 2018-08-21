@@ -31,8 +31,8 @@
         <Item Key="PartnerEntity">https://fmdclientad.northeurope.cloudapp.azure.com/federationmetadata/2007-06/federationmetadata.xml</Item>
         </Metadata>
         <CryptographicKeys>
-        <Key Id="SamlAssertionSigning" StorageReferenceId="B2C_1A_ADFSSamlCert"/>
-        <Key Id="SamlMessageSigning" StorageReferenceId="B2C_1A_ADFSSamlCert"/>
+        <Key Id="SamlAssertionSigning" StorageReferenceId="B2C_1A_FMDClientADFSCert"/>
+        <Key Id="SamlMessageSigning" StorageReferenceId="B2C_1A_FMDClientADFSCert"/>
         </CryptographicKeys>
         <OutputClaims>
         <OutputClaim ClaimTypeReferenceId="socialIdpUserId" PartnerClaimType="userPrincipalName" />
