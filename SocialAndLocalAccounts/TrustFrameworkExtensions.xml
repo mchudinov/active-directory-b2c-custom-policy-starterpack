@@ -19,6 +19,46 @@
   <ClaimsProviders>
 
     <ClaimsProvider>
+        <Domain>Aazure AD eikplatform.io</Domain>
+        <DisplayName>Login using eikplatform.io</DisplayName>
+        <TechnicalProfiles>
+            <TechnicalProfile Id="ContosoProfile">
+                <DisplayName>eikplatform.io user</DisplayName>
+                <Description>Login with your eikplatform.io account</Description>
+                <Protocol Name="OpenIdConnect"/>
+                <OutputTokenFormat>JWT</OutputTokenFormat>
+                <Metadata>
+                    <Item Key="METADATA">https://login.windows.net/eikplatform.io/.well-known/openid-configuration</Item>
+                    <Item Key="ProviderName">https://sts.windows.net/7db9a538-3cbd-4ede-8ab2-e077492a06fc/</Item>
+                    <Item Key="client_id">7f258ce4-c8b4-432b-856c-dbf882cf013e</Item>
+                    <Item Key="IdTokenAudience">7f258ce4-c8b4-432b-856c-dbf882cf013e</Item>
+                    <Item Key="response_types">id_token</Item>
+                    <Item Key="UsePolicyInRedirectUri">false</Item>
+                </Metadata>
+                <CryptographicKeys>
+                    <Key Id="client_secret" StorageReferenceId="B2C_1A_ContosoAppSecret"/>
+                </CryptographicKeys>
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="socialIdpUserId" PartnerClaimType="oid"/>
+                    <OutputClaim ClaimTypeReferenceId="tenantId" PartnerClaimType="tid"/>
+                    <OutputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="given_name" />
+                    <OutputClaim ClaimTypeReferenceId="surName" PartnerClaimType="family_name" />
+                    <OutputClaim ClaimTypeReferenceId="displayName" PartnerClaimType="name" />
+                    <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="socialIdpAuthentication" />
+                    <OutputClaim ClaimTypeReferenceId="identityProvider" DefaultValue="AzureADContoso" />
+                </OutputClaims>
+                <OutputClaimsTransformations>
+                    <OutputClaimsTransformation ReferenceId="CreateRandomUPNUserName"/>
+                    <OutputClaimsTransformation ReferenceId="CreateUserPrincipalName"/>
+                    <OutputClaimsTransformation ReferenceId="CreateAlternativeSecurityId"/>
+                    <OutputClaimsTransformation ReferenceId="CreateSubjectClaimFromAlternativeSecurityId"/>
+                </OutputClaimsTransformations>
+                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop"/>
+            </TechnicalProfile>
+        </TechnicalProfiles>
+    </ClaimsProvider>
+
+    <ClaimsProvider>
       <DisplayName>Facebook</DisplayName>
       <TechnicalProfiles>
         <TechnicalProfile Id="Facebook-OAUTH">
