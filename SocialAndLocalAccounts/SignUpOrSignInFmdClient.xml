@@ -14,7 +14,7 @@
   </BasePolicy>
 
   <RelyingParty>
-    <DefaultUserJourney ReferenceId="SignUpOrSignInEikPlatform" />
+    <DefaultUserJourney ReferenceId="SignUpOrSignInFmdClient" />
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />
