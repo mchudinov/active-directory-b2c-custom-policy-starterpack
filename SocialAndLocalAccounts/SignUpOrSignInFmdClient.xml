@@ -5,8 +5,8 @@
   xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06"
   PolicySchemaVersion="0.3.0.0"
   TenantId="fmdclient.onmicrosoft.com"
-  PolicyId="B2C_1A_SignUpOrSignInWithAAD"
-  PublicPolicyUri="http://fmdclient.onmicrosoft.com/B2C_1A_SignUpOrSignInWithAAD">
+  PolicyId="B2C_1A_SignUpOrSignInFmdClient"
+  PublicPolicyUri="http://fmdclient.onmicrosoft.com/B2C_1A_SignUpOrSignInFmdClient">
 
   <BasePolicy>
     <TenantId>fmdclient.onmicrosoft.com</TenantId>
