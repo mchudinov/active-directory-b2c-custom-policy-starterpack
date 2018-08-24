@@ -6,7 +6,9 @@
   PolicySchemaVersion="0.3.0.0"
   TenantId="fmdclient.onmicrosoft.com"
   PolicyId="B2C_1A_SignUpOrSignInFmdClient"
-  PublicPolicyUri="http://fmdclient.onmicrosoft.com/B2C_1A_SignUpOrSignInFmdClient">
+  PublicPolicyUri="http://fmdclient.onmicrosoft.com/B2C_1A_SignUpOrSignInFmdClient"
+  DeploymentMode="Development"
+  UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights">
 
   <BasePolicy>
     <TenantId>fmdclient.onmicrosoft.com</TenantId>
@@ -15,6 +17,9 @@
 
   <RelyingParty>
     <DefaultUserJourney ReferenceId="SignUpOrSignInFmdClient" />
+    <UserJourneyBehaviors>
+      <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="c7156bd4-95b4-4354-b0a9-3e193a002fec" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
+    </UserJourneyBehaviors>
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />
