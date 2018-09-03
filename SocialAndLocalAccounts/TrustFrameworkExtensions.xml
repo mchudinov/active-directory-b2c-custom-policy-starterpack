@@ -12,87 +12,88 @@
     <TenantId>fmdclient.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_TrustFrameworkBase</PolicyId>
   </BasePolicy>
-  <BuildingBlocks>
 
+  <BuildingBlocks>
   </BuildingBlocks>
 
   <ClaimsProviders>
 
     <ClaimsProvider>
-        <Domain>fmdclient.local</Domain>
-        <DisplayName>ADFS fmdclient.local</DisplayName>
+        <Domain>SAML fmdclient.local</Domain>
+        <DisplayName>Login using SAML ADFS fmdclient.local</DisplayName>
         <TechnicalProfiles>
-        <TechnicalProfile Id="FmdClientLocal-SAML2">
-            <DisplayName>ADFS fmdclient.local</DisplayName>
-            <Description>Login with your fmdclient.local account</Description>
-            <Protocol Name="SAML2"/>
-            <Metadata>
-            <Item Key="RequestsSigned">false</Item>
-            <Item Key="WantsEncryptedAssertions">false</Item>
-            <Item Key="PartnerEntity">https://fmdclientad.northeurope.cloudapp.azure.com/federationmetadata/2007-06/federationmetadata.xml</Item>
-            </Metadata>
-            <CryptographicKeys>
-              <Key Id="SamlAssertionSigning" StorageReferenceId="B2C_1A_ADFSSamlCert"/>
-              <Key Id="SamlMessageSigning" StorageReferenceId="B2C_1A_ADFSSamlCert"/>
-            </CryptographicKeys>
-            <OutputClaims>
-              <OutputClaim ClaimTypeReferenceId="socialIdpUserId" PartnerClaimType="userPrincipalName" />
-              <OutputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="given_name"/>
-              <OutputClaim ClaimTypeReferenceId="surname" PartnerClaimType="family_name"/>
-              <OutputClaim ClaimTypeReferenceId="email" PartnerClaimType="email"/>
-              <OutputClaim ClaimTypeReferenceId="displayName" PartnerClaimType="name"/>
-              <OutputClaim ClaimTypeReferenceId="identityProvider" DefaultValue="fmdclient.local" />
-              <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="socialIdpAuthentication"/>
-            </OutputClaims>
-            <OutputClaimsTransformations>
-            <OutputClaimsTransformation ReferenceId="CreateRandomUPNUserName"/>
-            <OutputClaimsTransformation ReferenceId="CreateUserPrincipalName"/>
-            <OutputClaimsTransformation ReferenceId="CreateAlternativeSecurityId"/>
-            <OutputClaimsTransformation ReferenceId="CreateSubjectClaimFromAlternativeSecurityId"/>
-            </OutputClaimsTransformations>
-            <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop"/>
-        </TechnicalProfile>
+          <TechnicalProfile Id="FmdClientLocal-SAML2">
+              <DisplayName>SAML ADFS fmdclient.local</DisplayName>
+              <Description>Login with SAML ADFS account</Description>
+              <Protocol Name="SAML2"/>
+              <Metadata>
+                <Item Key="RequestsSigned">false</Item>
+                <Item Key="WantsEncryptedAssertions">false</Item>
+                <Item Key="PartnerEntity">https://fmdclientad.northeurope.cloudapp.azure.com/federationmetadata/2007-06/federationmetadata.xml</Item>
+              </Metadata>
+              <CryptographicKeys>
+                <Key Id="SamlAssertionSigning" StorageReferenceId="B2C_1A_ADFSSamlCert"/>
+                <Key Id="SamlMessageSigning" StorageReferenceId="B2C_1A_ADFSSamlCert"/>
+              </CryptographicKeys>
+              <OutputClaims>
+                <OutputClaim ClaimTypeReferenceId="socialIdpUserId" PartnerClaimType="userPrincipalName" />
+                <OutputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="given_name"/>
+                <OutputClaim ClaimTypeReferenceId="surname" PartnerClaimType="family_name"/>
+                <OutputClaim ClaimTypeReferenceId="email" PartnerClaimType="email"/>
+                <OutputClaim ClaimTypeReferenceId="displayName" PartnerClaimType="name"/>
+                <OutputClaim ClaimTypeReferenceId="identityProvider" DefaultValue="fmdclient.local" />
+                <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="socialIdpAuthentication"/>
+              </OutputClaims>
+              <OutputClaimsTransformations>
+                <OutputClaimsTransformation ReferenceId="CreateRandomUPNUserName"/>
+                <OutputClaimsTransformation ReferenceId="CreateUserPrincipalName"/>
+                <OutputClaimsTransformation ReferenceId="CreateAlternativeSecurityId"/>
+                <OutputClaimsTransformation ReferenceId="CreateSubjectClaimFromAlternativeSecurityId"/>
+              </OutputClaimsTransformations>
+              <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop"/>
+          </TechnicalProfile>
         </TechnicalProfiles>
     </ClaimsProvider>
 
     <ClaimsProvider>
-        <Domain>Aazure AD eikplatform.io</Domain>
-        <DisplayName>Azure AD eikplatform.io</DisplayName>
-        <TechnicalProfiles>
-            <TechnicalProfile Id="EikPlatformProfile">
-                <DisplayName>Azure AD eikplatform.io</DisplayName>
-                <Description>Login with your eikplatform.io account</Description>
-                <Protocol Name="OpenIdConnect"/>
-                <OutputTokenFormat>JWT</OutputTokenFormat>
-                <Metadata>
-                    <Item Key="METADATA">https://login.windows.net/eikplatform.io/.well-known/openid-configuration</Item>
-                    <Item Key="ProviderName">https://sts.windows.net/7db9a538-3cbd-4ede-8ab2-e077492a06fc/</Item>
-                    <Item Key="client_id">7f258ce4-c8b4-432b-856c-dbf882cf013e</Item>
-                    <Item Key="IdTokenAudience">7f258ce4-c8b4-432b-856c-dbf882cf013e</Item>
-                    <Item Key="response_types">id_token</Item>
-                    <Item Key="UsePolicyInRedirectUri">false</Item>
-                </Metadata>
-                <CryptographicKeys>
-                    <Key Id="client_secret" StorageReferenceId="B2C_1A_FmdClientAppSecret"/>
-                </CryptographicKeys>
-                <OutputClaims>
-                    <OutputClaim ClaimTypeReferenceId="socialIdpUserId" PartnerClaimType="oid"/>
-                    <OutputClaim ClaimTypeReferenceId="tenantId" PartnerClaimType="tid"/>
-                    <OutputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="given_name" />
-                    <OutputClaim ClaimTypeReferenceId="surName" PartnerClaimType="family_name" />
-                    <OutputClaim ClaimTypeReferenceId="displayName" PartnerClaimType="name" />
-                    <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="socialIdpAuthentication" />
-                    <OutputClaim ClaimTypeReferenceId="identityProvider" DefaultValue="eikplatform.io" />
-                </OutputClaims>
-                <OutputClaimsTransformations>
-                    <OutputClaimsTransformation ReferenceId="CreateRandomUPNUserName"/>
-                    <OutputClaimsTransformation ReferenceId="CreateUserPrincipalName"/>
-                    <OutputClaimsTransformation ReferenceId="CreateAlternativeSecurityId"/>
-                    <OutputClaimsTransformation ReferenceId="CreateSubjectClaimFromAlternativeSecurityId"/>
-                </OutputClaimsTransformations>
-                <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop"/>
-            </TechnicalProfile>
-        </TechnicalProfiles>
+      <Domain>OpenID ADFS</Domain>
+      <DisplayName>Login using OpenID ADFS</DisplayName>
+      <TechnicalProfiles>
+        <TechnicalProfile Id="ADFSProfile">
+            <DisplayName>OpenID ADFS fmdclient.local</DisplayName>
+            <Description>Login with OpenID ADFS account</Description>
+            <Protocol Name="OpenIdConnect" />
+            <OutputTokenFormat>JWT</OutputTokenFormat>
+            <Metadata>
+              <Item Key="METADATA">https://fmdclientad.northeurope.cloudapp.azure.com/adfs/.well-known/openid-configuration</Item>
+              <Item Key="ProviderName">https://fmdclientad.northeurope.cloudapp.azure.com/adfs</Item>
+              <Item Key="client_id">c4df9d6e-1e06-4474-b20f-82d8ca33cd17</Item>
+              <Item Key="IdTokenAudience">c4df9d6e-1e06-4474-b20f-82d8ca33cd17</Item>
+              <Item Key="response_types">id_token</Item>
+              <Item Key="UsePolicyInRedirectUri">false</Item>
+            </Metadata>
+            <CryptographicKeys>
+              <Key Id="client_secret" StorageReferenceId="B2C_1A_FmdclientNortheuropeCloudappAzureCom"/>
+            </CryptographicKeys>
+            <OutputClaims>
+              <OutputClaim ClaimTypeReferenceId="socialIdpUserId" PartnerClaimType="upn" />
+              <OutputClaim ClaimTypeReferenceId="tenantId" PartnerClaimType="tid" />
+              <OutputClaim ClaimTypeReferenceId="givenName" PartnerClaimType="given_name" />
+              <OutputClaim ClaimTypeReferenceId="surName" PartnerClaimType="family_name" />
+              <OutputClaim ClaimTypeReferenceId="displayName" PartnerClaimType="name" />
+              <OutputClaim ClaimTypeReferenceId="authenticationSource" DefaultValue="contosoAuthentication" />
+              <OutputClaim ClaimTypeReferenceId="identityProvider" DefaultValue="OpenIDADFS" />
+              <OutputClaim ClaimTypeReferenceId="email" PartnerClaimType="email"/>
+            </OutputClaims>
+            <OutputClaimsTransformations>
+            <OutputClaimsTransformation ReferenceId="CreateRandomUPNUserName" />
+            <OutputClaimsTransformation ReferenceId="CreateUserPrincipalName" />
+            <OutputClaimsTransformation ReferenceId="CreateAlternativeSecurityId" />
+            <OutputClaimsTransformation ReferenceId="CreateSubjectClaimFromAlternativeSecurityId" />
+            </OutputClaimsTransformations>
+            <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+        </TechnicalProfile>
+      </TechnicalProfiles>
     </ClaimsProvider>
 
   </ClaimsProviders>
@@ -105,6 +106,7 @@
           <ClaimsProviderSelections>
             <ClaimsProviderSelection TargetClaimsExchangeId="EikPlatformExchange" />
             <ClaimsProviderSelection TargetClaimsExchangeId="FmdClientLocalExchange" />
+            <ClaimsProviderSelection TargetClaimsExchangeId="ADFSExchange" />
           </ClaimsProviderSelections>
           <ClaimsExchanges>
             <ClaimsExchange Id="LocalAccountSigninEmailExchange" TechnicalProfileReferenceId="SelfAsserted-LocalAccountSignin-Email" />
@@ -120,8 +122,8 @@
             </Precondition>
           </Preconditions>
           <ClaimsExchanges>
-            <ClaimsExchange Id="EikPlatformExchange" TechnicalProfileReferenceId="EikPlatformProfile" />
             <ClaimsExchange Id="FmdClientLocalExchange" TechnicalProfileReferenceId="FmdClientLocal-SAML2" />
+            <ClaimsExchange Id="ADFSExchange" TechnicalProfileReferenceId="ADFSProfile" />
           </ClaimsExchanges>
         </OrchestrationStep>
 
