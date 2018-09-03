@@ -104,7 +104,6 @@
       
         <OrchestrationStep Order="1" Type="CombinedSignInAndSignUp" ContentDefinitionReferenceId="api.signuporsignin">
           <ClaimsProviderSelections>
-            <ClaimsProviderSelection TargetClaimsExchangeId="EikPlatformExchange" />
             <ClaimsProviderSelection TargetClaimsExchangeId="FmdClientLocalExchange" />
             <ClaimsProviderSelection TargetClaimsExchangeId="ADFSExchange" />
           </ClaimsProviderSelections>
