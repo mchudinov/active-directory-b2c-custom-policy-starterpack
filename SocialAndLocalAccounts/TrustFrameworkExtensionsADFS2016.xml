@@ -12,8 +12,8 @@
     <TenantId>fmdclient.onmicrosoft.com</TenantId>
     <PolicyId>B2C_1A_TrustFrameworkBase</PolicyId>
   </BasePolicy>
+  
   <BuildingBlocks>
-
   </BuildingBlocks>
 
   <ClaimsProviders>
