@@ -18,7 +18,7 @@
   <RelyingParty>
     <DefaultUserJourney ReferenceId="SignUpOrSignInFmdClient" />
     <UserJourneyBehaviors>
-      <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="c7156bd4-95b4-4354-b0a9-3e193a002fec" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
+      <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="b062994b-2e74-4cba-8cd4-f82734a96d4a" DeveloperMode="true" ClientEnabled="false" ServerEnabled="true" TelemetryVersion="1.0.0" />
     </UserJourneyBehaviors>
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
